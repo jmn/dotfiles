@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+echo "Symlinking dotfiles..."
+
+for f in $(ls -a ~/.dotfiles) ; do
+    if [ ! -r "$HOME/$f" ] &&
+        [ $f != "." ] && [ $f != ".." ] && [ $f != "README.md" ] &&
+        [ "$f" != ".git" ] && [ $f != ".gitignore" ] && [ $f != "urxvt-perls" ]; then
+        ln -s "$HOME/.dotfiles/$f" "$HOME/$f"
+    fi
+done
