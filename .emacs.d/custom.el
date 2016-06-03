@@ -44,7 +44,6 @@
    (quote
     (try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-lisp-symbol-partially try-complete-lisp-symbol ispell-complete-word)))
  '(inhibit-startup-screen t)
- '(ispell-dictionary "american")
  '(ispell-local-dictionary-alist
    (quote
     (("american" "[A-Za-z]" "[^A-Za-z]" "" t
@@ -81,7 +80,6 @@
  '(newsticker-use-full-width nil)
  '(newsticker-wget-arguments (quote ("-q" "-O" "-" "--user-agent" "testing")))
  '(newsticker-wget-name "wget")
- '(org-agenda-files (list (file-truename (concat home "GTD"))))
  '(org-babel-load-languages
    (quote
     ((haskell . t)
@@ -132,7 +130,6 @@ Added: %U")
 "))))
  '(org-custom-properties (quote ("STARTUP" "on")))
  '(org-default-notes-file "remember.org")
- '(org-directory (file-truename (concat home "GTD")))
  '(org-export-in-background nil)
  '(org-export-initial-scope (quote subtree))
  '(org-export-show-temporary-export-buffer t)

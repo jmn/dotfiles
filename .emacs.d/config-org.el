@@ -71,3 +71,31 @@
 ;; 			    (kbd "M-J") 'org-shiftmetadown))
 ;; 	'(normal insert))
 ;; 
+
+
+;; Org
+;; Use a different typeface (font) for org-mode
+;; (add-hook 'text-mode-hook 'variable-pitch-mode)
+
+;; ;; (add-hook 'org-mode-hook (lambda ()
+;;                            (setq buffer-face-mode-face '(:font "Bitstream Vera Sans Mono-12"))
+;;                            (buffer-face-mode)))
+
+;; Use fixed-width font for tables and variable-pitch for text
+;; (defun my-adjoin-to-list-or-;; symbol (element list-or-symbol)
+;;   (let ((list (if (not (listp list-or-symbol))
+;;                   (list list-or-symbol)
+;;                 list-or-symbol)))
+;;     (require 'cl-lib)
+;;     (cl-adjoin element list)))
+
+;; (eval-after-load "org"
+;;   '(mapc
+;;     (lambda (face)
+;;       (set-face-attribute
+;;        face nil
+;;        :inherit
+;;        (my-adjoin-to-list-or-symbol
+;;         'fixed-pitch
+;;         (face-attribute face :inherit))))
+;;     (list 'org-code 'org-block 'org-table 'org-block-background)))

@@ -17,7 +17,7 @@
 (setq smtpmail-smtp-service 587
       gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
-(require 'bbdb)
+
 (setq bbdb/news-auto-create-p t)	; Contacts
 (bbdb-initialize 'gnus 'message)
 (bbdb-insinuate-message)

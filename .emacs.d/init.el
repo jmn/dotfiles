@@ -1,67 +1,10 @@
 ;; .emacs (2012-2013) (jmnoz)
 ;; a configuration file.
 
+
 (set-language-environment "utf-8")
 
-;; System specific settings:
-
-(cond 
- ((eq system-type 'windows-nt)	; Windows settings
-  (progn 
-    (setq home "c:/documents and settings/root/mina dokument/Dropbox/") 
-    (setq default-directory "c:/documents and settings/root/mina dokument/Dropbox/") 
-    (require 'cygwin-mount nil t)
-    (setenv "PATH" (concat "c:/cygwin/bin;" (getenv "PATH")))
-    (setq exec-path (cons "c:/cygwin/bin/" exec-path))
-    (require 'setup-cygwin nil t)
-    (set-face-attribute 'default nil :font "Consolas")		; Default font
-    (menu-bar-mode nil)
-    )
-  )
- ((eq system-type 'gnu/linux)	; GNU/Linux settings
-  (progn 
-    (setq home "~/Dropbox/")
-    (setq default-directory "~/Dropbox/")
-
-    (if window-system 
-
-    ;; (set-face-font 'default "-jmk-Neep-normal-normal-normal-*-12-*-*-*-c-90-iso8859-1") ;; Interesting
-    ;; (set-face-font 'default "-jmk-neep alt-medium-r-*-*-20-*-*-*-c-*-iso8859-1")
-
-;    (set-face-font 'default "-bitstream-bitstream vera sans mono-medium-r-*-*-*-120-*-*-*-*-*-*") 
-
-    ;; (set-face-font 'default "Neep Alt-14")
-    ;; Currently unused (but tried) fonts:
-    ;; (set-face-attribute 'default nil :font "FreeMono-12")
-    (set-face-attribute 'default nil :font "Terminus-12")
-    ;; (set-face-attribute 'default nil :font "Droid Sans Mono-12")                 ;; Serif font
-    ;; (set-face-attribute 'default nil :font "Bitstream Vera Sans Mono-11")                 ;; Serif font
-    ;; (set-face-font 'default "-jmk-Neep-qQnormal-normal-normal-*-12-*-*-*-c-90-iso8859-1") ;; Interesting
-
-    ) 
-
-    (menu-bar-mode -1)
-    )
-  )
- ((eq system-type 'darwin) ; Mac OS settings
-  (progn 
-    (setq home "~/Dropbox/")
-    (setq default-directory "~/Dropbox/" )
-    (setq exec-path (append exec-path '("/usr/local/bin")))
-    ;; (set-face-attribute 'default nil :font "Cochin-14")
-    ;; (set-face-attribute 'default nil :font "Inconsolata")
-    (set-face-attribute 'default nil :font "Droid Serif")
-    (menu-bar-mode t)
-    (add-to-list 'default-frame-alist '(height . 48))
-    (add-to-list 'default-frame-alist '(width . 150)) 
-    (setq mac-option-modifier nil
-      mac-command-modifier 'meta
-      x-select-enable-clipboard t)
-    )
-  )
- )
-
-;; end section: system specific settings.
+(load "~/.emacs.d/config-os-specific.el")
 
 ;; Package system init
 (require 'package)
@@ -70,8 +13,9 @@
       "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+;; (package-initialize)
+
+;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 
 (setq auth-sources '((:source ".authinfo.gpg" :host t :protocol t)))
@@ -88,12 +32,15 @@
 (setq org-mobile-directory (file-truename ".mobile-org"))
 (setq org-mobile-inbox-for-pull (file-truename "GTD/mobileorg.org"))
 
-(message "system-type is: %s" system-type)
-(message "home set to: %s" home)
+(package-initialize)
+(require 'use-package)
+; (message "system-type is: %s" system-type)
+; (message "home set to: %s" home)
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+;; ============== FACES =============
 ;; Faces: Remove bold and underlining from faces
 ;; from http://stackoverflow.com/questions/2064904/how-to-disable-bold-font-weight-globally-in-emacs
 (mapc
@@ -101,50 +48,16 @@
     (set-face-attribute face nil :weight 'normal :underline nil))
   (face-list))
 
+;; Use org-mode for .txt files
 (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
 '(initial-major-mode (quote org-mode))
 
-;; Org
-;; Use a different typeface (font) for org-mode
-;; (add-hook 'text-mode-hook 'variable-pitch-mode)
-
-;; ;; (add-hook 'org-mode-hook (lambda ()
-;;                            (setq buffer-face-mode-face '(:font "Bitstream Vera Sans Mono-12"))
-;;                            (buffer-face-mode)))
-
-;; Use fixed-width font for tables and variable-pitch for text
-;; (defun my-adjoin-to-list-or-;; symbol (element list-or-symbol)
-;;   (let ((list (if (not (listp list-or-symbol))
-;;                   (list list-or-symbol)
-;;                 list-or-symbol)))
-;;     (require 'cl-lib)
-;;     (cl-adjoin element list)))
-
-;; (eval-after-load "org"
-;;   '(mapc
-;;     (lambda (face)
-;;       (set-face-attribute
-;;        face nil
-;;        :inherit
-;;        (my-adjoin-to-list-or-symbol
-;;         'fixed-pitch
-;;         (face-attribute face :inherit))))
-;;     (list 'org-code 'org-block 'org-table 'org-block-background)))
-
-;; window-margin-mode: https://github.com/aculich/window-margin.el
-(require 'window-margin)
-(add-hook 'text-mode-hook 'turn-on-window-margin-mode)
-
 (setq initial-scratch-message "")
 (setq server-socket-dir (format "/tmp/emacs%d" (user-uid)))
-(require 'edit-server)	; Chrome extension: http://www.emacswiki.org/emacs/EmacsClient#toc42
-(edit-server-start)
 (server-start)		; Normal emacs server
 ; (prefer-coding-system 'utf-8)
 
-(require 'deft)
 (require 'org)
-(require 'org-related)
 
 ;; func by "Arne": http://stackoverflow.com/a/11517584/41829
 (defun comment-or-uncomment-line-or-region ()
@@ -205,9 +118,9 @@
 (add-hook 'org-capture-mode-hook (lambda () (org-toggle-custom-properties-visibility)))
 
 ; (require 'magit)
-(require 'go-mode-load)
-(require 'go-autocomplete)
-(require 'auto-complete-config)
+; (require 'go-mode-load)
+; (require 'go-autocomplete)
+; (require 'auto-complete-config)
 (require 'ispell)
 
 (autoload 'magit-status "magit" nil t)
@@ -250,6 +163,16 @@
 
 (define-key global-map [f11] 'switch-fullscreen)
 (global-font-lock-mode -1)
+
+
+(use-package bbdb
+  :ensure t)
+
+(use-package org-jekyll
+  :ensure t)
+
+(use-package zenburn-theme
+  :ensure t)
 
 (setq gnus-init-file "~.emacs.d/config-gnus.el")
 (load "~/.emacs.d/config-gnus.el")
