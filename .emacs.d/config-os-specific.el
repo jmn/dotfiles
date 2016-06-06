@@ -26,7 +26,8 @@
     ;; (set-face-font 'default "Neep Alt-14")
     ;; Currently unused (but tried) fonts:
     ;; (set-face-attribute 'default nil :font "FreeMono-12")
-    (set-face-attribute 'default nil :font "Terminus-12")
+	(set-face-attribute 'default nil :font "Terminus-16") ;; TODO: Machine specific = Terminus-12 on smaller/lowres display.
+      (set-face-attribute 'default nil :font "Dejavu Sans Mono-16")
     ;; (set-face-attribute 'default nil :font "Droid Sans Mono-12")                 ;; Serif font
     ;; (set-face-attribute 'default nil :font "Bitstream Vera Sans Mono-11")                 ;; Serif font
     ;; (set-face-font 'default "-jmk-Neep-qQnormal-normal-normal-*-12-*-*-*-c-90-iso8859-1") ;; Interesting

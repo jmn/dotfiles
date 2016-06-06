@@ -1,9 +1,7 @@
 ;; .emacs (2012-2013) (jmnoz)
 ;; a configuration file.
 
-
 (set-language-environment "utf-8")
-
 (load "~/.emacs.d/config-os-specific.el")
 
 ;; Package system init
@@ -13,10 +11,9 @@
       "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
+
 ;; (package-initialize)
-
 ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-
 
 (setq auth-sources '((:source ".authinfo.gpg" :host t :protocol t)))
 
@@ -100,15 +97,6 @@
      ;; (define-key dired-mode-map (kbd "M-o") nil)))
 ))
 
-;; j/k is line up/down in magit
-(eval-after-load "magit"
-  '(progn
-     (define-key magit-mode-map (kbd "K") 'magit-discard-item)	
-     (define-key magit-mode-map (kbd "j") 'next-line)
-     (define-key magit-status-mode-map (kbd "k") 'previous-line)
-     (define-key magit-mode-map (kbd "k") 'previous-line)
-))
-
 (eval-after-load "org-agenda"		; Todo: remap original keys 
   '(progn
      (define-key org-agenda-mode-map (kbd "j") 'next-line)
@@ -117,7 +105,16 @@
 
 (add-hook 'org-capture-mode-hook (lambda () (org-toggle-custom-properties-visibility)))
 
-; (require 'magit)
+(use-package magit
+  :ensure t
+  :init
+  '(progn
+     (define-key magit-mode-map (kbd "K") 'magit-discard-item)	;; j/k is line up/down in magit
+     (define-key magit-mode-map (kbd "j") 'next-line)
+     (define-key magit-status-mode-map (kbd "k") 'previous-line)
+     (define-key magit-mode-map (kbd "k") 'previous-line)
+     )
+  )
 ; (require 'go-mode-load)
 ; (require 'go-autocomplete)
 ; (require 'auto-complete-config)
