@@ -138,7 +138,7 @@ Added: %U")
  '(org-export-with-toc nil)
  '(org-html-postamble nil)
  '(org-html-use-unicode-chars t)
- '(org-make-link-description-function (quote (quote jmn/url-get-title)))
+ '(org-make-link-description-function (quote jmn/url-get-title))
  '(org-remember-templates
    (quote
     (("Daily Review" 82 ".daily_review.txt
@@ -223,6 +223,7 @@ Added: %U")
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
  '(send-mail-function (quote smtpmail-send-it))
+ '(show-paren-mode t)
  '(show-paren-style (quote parenthesis))
  '(sml-modeline-numbers (quote percentage))
  '(smtpmail-smtp-server "smtp.gmail.com")
@@ -264,12 +265,14 @@ Added: %U")
  '(vc-annotate-very-old-color "#DC8CC3")
  '(w3m-default-display-inline-images t)
  '(window-min-width 30)
+ '(writeroom-width 100)
  '(x-select-enable-primary t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :family "Fantasque Sans Mono" :foundry "PfEd"))))
  '(fixed-pitch ((t (:underline nil))))
  '(newsticker-feed-face ((t (:inherit default :weight bold))) t)
  '(newsticker-immortal-item-face ((t (:inherit default :foreground "orange" :slant italic :weight bold))) t)

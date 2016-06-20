@@ -4,16 +4,12 @@
 (set-language-environment "utf-8")
 (load "~/.emacs.d/config-os-specific.el")
 
-;; Package system init
-(require 'package)
+(require 'package)			;;; Package system init
 (add-to-list 'package-archives 
     '("marmalade" .
       "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
-
-;; (package-initialize)
-;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 (setq auth-sources '((:source ".authinfo.gpg" :host t :protocol t)))
 
@@ -24,6 +20,7 @@
 (add-to-list 'load-path (file-truename ".emacs.d/nyan-mode"))
 (add-to-list 'load-path (file-truename ".emacs.d/elpa/sr-speedbar-0.1.8"))
 (add-to-list 'load-path (file-truename ".emacs.d/elpa/org-plus-contrib-20130429"))
+(add-to-list 'load-path "/home/jmn/.rvm/rubies/ruby-1.9.3-p392/share/emacs/site-lisp")
 
 (setq package-user-dir  (file-truename ".emacs.d/elpa"))
 (setq org-mobile-directory (file-truename ".mobile-org"))
@@ -88,13 +85,6 @@
      (define-key dired-mode-map (kbd "K") 'dired-do-kill-lines)	
      (define-key dired-mode-map (kbd "j") 'next-line)		
      (define-key dired-mode-map (kbd "k") 'previous-line)
-
-     ;; Add an alternative local binding for the command	; This shows how to bind whatever is bound to a key, to something else.
-     ;; bound to M-o						; pretty useful.
-     ;; (define-key dired-mode-map (kbd "C-c o")
-     ;;   (lookup-key dired-mode-map (kbd "M-o")))
-     ;; ;; Unbind M-o from the local keymap
-     ;; (define-key dired-mode-map (kbd "M-o") nil)))
 ))
 
 (eval-after-load "org-agenda"		; Todo: remap original keys 
@@ -115,20 +105,11 @@
      (define-key magit-mode-map (kbd "k") 'previous-line)
      )
   )
-; (require 'go-mode-load)
-; (require 'go-autocomplete)
-; (require 'auto-complete-config)
+
 (require 'ispell)
 
 (autoload 'magit-status "magit" nil t)
 
-;; ; Make URLs clickable in GUI Emacs
-;; (add-hook 'find-file-hook 'goto-address-mode)
-
-;; (run-at-time "00:05" 86400 '(lambda () (org-mobile-push-with-delay 1))) ;; refreshes agenda file each day
-
-
-; (copy-region-as-kill) ;;  How to enable?
 (if (eq system-type 'windows-nt)
  (require 'w32-fullscreen))
 (message "Done loaded dotemacs. Please proceed.")
@@ -161,7 +142,6 @@
 (define-key global-map [f11] 'switch-fullscreen)
 (global-font-lock-mode -1)
 
-
 (use-package bbdb
   :ensure t)
 
@@ -177,30 +157,22 @@
 (load "~/.emacs.d/config-programming.el")
 (load "~/.emacs.d/config-irc.el")
 
-;; Scrollwheel resize fonts
-(global-set-key (kbd "<C-mouse-4>") 'text-scale-decrease)
+(global-set-key (kbd "<C-mouse-4>") 'text-scale-decrease) ;;; Scrollwheel resize fonts
 (global-set-key (kbd "<C-mouse-5>") 'text-scale-increase)
 
 ;; Uniquify makes it possible to distingush buffers with the same filename from eachother
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-; (require 'evil)
-; (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-
-;; Beginning of the el4r block:
-;; RCtool generated this block automatically. DO NOT MODIFY this block!
-(add-to-list 'load-path "/home/jmn/.rvm/rubies/ruby-1.9.3-p392/share/emacs/site-lisp")
-
-;; (require 'el4r)
-;; (el4r-boot)
-;; End of the el4r block.
-;; User-setting area is below this line.
-
-;; Experimental: Put modeline on top
-;; (setq-default header-line-format mode-line-format) ; Copy mode-line
-;; (setq-default mode-line-format nil) ; Remove mode-line
-
-;; (load-theme 'whiteboard t)
 (load-theme 'zenburn t)
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; fonts
+(set-frame-font "Fantasque Sans Mono Regular" t)
+ (require 'cl)
+  (defun font-candidate (&rest fonts)
+     "Return existing font which first match."
+     (find-if (lambda (f) (find-font (font-spec :name f))) fonts))
+
+(set-face-attribute 'default nil :font
+		    (font-candidate '"Fantasque Sans Mono Regular:weight=normal" "Fantasque Sans Mono Regular-12:weight=normal"))

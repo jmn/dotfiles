@@ -12,7 +12,8 @@
 
 (defun jmn/url-get-title (url &optional descr)
   "Takes a URL and returns the value of the <title> HTML tag,
-   Thanks to https://frozenlock.org/tag/url-retrieve/ for documenting url-retrieve"
+   Thanks to https://frozenlock.org/tag/url-retrieve/ for documenting url-retrieve
+   customize org-make-link-description-function."
   (let ((buffer (url-retrieve-synchronously url))
         (title nil))
     (save-excursion
