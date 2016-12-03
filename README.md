@@ -1,5 +1,5 @@
 # Dotfiles
-<a>[](http://www.prguitarman.com/comics/poptart1red1.gif)</a>
+<a>![Trucketh thee onward.](http://www.prguitarman.com/comics/poptart1red1.gif)</a>
 
 This repo uses [rcm][]. 
  
