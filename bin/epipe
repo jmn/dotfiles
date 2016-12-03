@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+cleanup() {
+    trap - TERM INT EXIT
+    if [[ -O "$FIFO" ]]; then
+        rm -f "$FIFO" || :
+    fi
+    if [[ -O "$DIR" ]]; then
+        rmdir "$DIR" || :
+    fi
+}
+trap "cleanup" TERM INT EXIT
+
+
+#SOCKET="${XDG_RUNTIME_DIR:-/run/user/$UID}/emacs/server"
+#SOCKET="/home/jmn/emacs.d/server"
+SOCKET="/tmp/emacs1000/server"
+
+# Create a named pipe in /dev/shm
+DIR=$(mktemp -d "/dev/shm/epipe-$$.XXXXXXXXXX")
+FIFO="$DIR/fifo"
+mkfifo -m 0600 "$DIR/fifo"
+
+# Ask emacs to read from the names socket.
+emacsclient -s "$SOCKET" -n --eval "(pager-read-pipe \"$FIFO\")" >/dev/null <&-
+
+exec 1>"$FIFO"
+cleanup # Cleanup early. Nobody needs the paths now...
+cat

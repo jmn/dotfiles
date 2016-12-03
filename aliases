@@ -1,2 +1,3 @@
 alias si='sudo apt-get install'
 alias ss='apt-cache search'
+alias attach='tmux new-session -A -s main'
