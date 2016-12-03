@@ -1,5 +1,5 @@
 # Dotfiles
-<img src="http://www.prguitarman.com/comics/poptart1red1.gif" alt="nyan cat" longdesc="http://www.nyan.cat"/>
+<a>[](http://www.prguitarman.com/comics/poptart1red1.gif)</a>
 
 This repo uses [rcm][]. 
  
