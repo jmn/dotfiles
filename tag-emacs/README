@@ -1,0 +1,2 @@
+# Emacs config
+I run emacs with "emacs -Q -l ~/.emacs.d/myinit.el".
