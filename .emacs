@@ -1,5 +1,7 @@
 (load "~/.emacs.d/sanemacs.el" nil t)
 (load-file "~/.emacs.d/private/gleam-mode/gleam-mode.el")
+(load-file "~/.emacs.d/window-margin.el")
+
 (require 'gleam-mode)
 (add-to-list 'auto-mode-alist '("\\.gleam$" . gleam-mode))
 (setq org-startup-folded nil)
@@ -9,6 +11,7 @@
 
 (advice-add #'org-hugo-link :override #'org-md-link)
 (global-set-key (kbd "<f1>") 'magit-status)
+(global-set-key (kbd "<f2>") 'variable-pitch-mode)
 (global-set-key (kbd "C-c g") 'magit-file-dispatch)
 
 ;; Set background color of org-mode source blocks
@@ -106,11 +109,19 @@ alphanumeric characters only."
     (setq org-html-format-headline-function
           'imalison:org-html-format-heading-function)))
 
+(global-visual-line-mode 0)
 (add-hook 'text-mode-hook
            (lambda ()
-            (variable-pitch-mode 1)))
+	     (variable-pitch-mode 1)
+	     (visual-line-mode nil)
+	     (writeroom-mode t)))
 
 (load-theme 'poet-dark)
 (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "DejaVu Sans Mono")
 (set-face-attribute 'variable-pitch nil :family "Noto Serif CJK TC")
+
+;; open bookmarks at startup
+;; You have to inhibit-startup-screen on startup. See above.
+(bookmark-bmenu-list)
+(switch-to-buffer "*Bookmark List*")
