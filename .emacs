@@ -18,6 +18,7 @@
 ;; Set background color of org-mode source blocks
 (use-package org
   :config
+  (require 'org-tempo)
   (progn
     (defun imalison:org-inline-css-hook (exporter)
       "Insert custom inline css to automatically set the
@@ -81,3 +82,5 @@ background of code to whatever theme I'm using's background"
 ;; You have to inhibit-startup-screen on startup. See above.
 (bookmark-bmenu-list)
 (switch-to-buffer "*Bookmark List*")
+(add-to-list 'org-structure-template-alist '("g" . "src gleam
+"))
