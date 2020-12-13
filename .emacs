@@ -1,6 +1,7 @@
 (load "~/.emacs.d/sanemacs.el" nil t)
 (load-file "~/.emacs.d/private/gleam-mode/gleam-mode.el")
-(load-file "~/.emacs.d/window-margin.el")
+;; (load-file "~/.emacs.d/window-margin.el")
+(load-file "~/.emacs.d/better-links.el")
 
 (require 'gleam-mode)
 (add-to-list 'auto-mode-alist '("\\.gleam$" . gleam-mode))
@@ -32,51 +33,6 @@ background of code to whatever theme I'm using's background"
                     my-pre-bg my-pre-fg))))))
 
     (add-hook 'org-export-before-processing-hook 'imalison:org-inline-css-hook)))
-
-;;; Sanitize link anchors
-;;; http://ivanmalison.github.io/dotfiles/#usemyowndefaultnamingschemefororgheadings
-(defun imalison:org-get-raw-value (item)
-  (when (listp item)
-    (let* ((property-list (cadr item)))
-      (when property-list (plist-get property-list :raw-value)))))
-
-(defun imalison:sanitize-name (name)
-  (replace-regexp-in-string "[^[:alpha:]]" "" (downcase name)))
-
-(defun imalison:generate-name (datum cache)
-  (let ((raw-value (imalison:org-get-raw-value datum)))
-    (if raw-value
-        (imalison:sanitize-name raw-value)
-      ;; This is the default implementation from org
-      (let ((type (org-element-type datum)))
-        (format "org%s%d"
-                (if type
-                    (replace-regexp-in-string "-" "" (symbol-name type))
-                    "secondarystring")
-                (incf (gethash type cache 0)))))))
-
-(with-eval-after-load 'ox
-  (defun org-export-get-reference (datum info)
-    "Return a unique reference for DATUM, as a string.
-DATUM is either an element or an object.  INFO is the current
-export state, as a plist.  Returned reference consists of
-alphanumeric characters only."
-    (let ((type (org-element-type datum))
-	  (cache (or (plist-get info :internal-references)
-		     (let ((h (make-hash-table :test #'eq)))
-		       (plist-put info :internal-references h)
-		       h)))
-	  (reverse-cache (or (plist-get info :taken-internal-references)
-			     (let ((h (make-hash-table :test 'equal)))
-			       (plist-put info :taken-internal-references h)
-			       h))))
-      (or (gethash datum cache)
-	  (let* ((name (imalison:generate-name datum cache))
-		 (number (+ 1 (gethash name reverse-cache -1)))
-		 (new-name (format "%s%s" name (if (< 0 number) number ""))))
-	    (puthash name number reverse-cache)
-	    (puthash datum new-name cache)
-	    new-name)))))
 
 ;;; Add link icons in headings
 ;;; http://ivanmalison.github.io/dotfiles/#addlinkiconsinheadingsthatleadtothemselves
