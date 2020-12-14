@@ -1,0 +1,3 @@
+[submodule ".emacs.d/private/gleam-mode"]
+	path = .emacs.d/private/gleam-mode
+	url = https://github.com/gleam-lang/gleam-mode.git
