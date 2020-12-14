@@ -1,9 +1,12 @@
 (setq shell-file-name "bash")
 (setq shell-command-switch "-ic")
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
 (load "~/.emacs.d/sanemacs.el" nil t)
+
+(use-package exec-path-from-shell
+	     :config
+	     (when (memq window-system '(mac ns x))
+	       (exec-path-from-shell-initialize)))
+
 (load-file "~/.emacs.d/private/gleam-mode/gleam-mode.el")
 (load-file "~/.emacs.d/better-links.el")
 
