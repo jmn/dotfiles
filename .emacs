@@ -76,10 +76,17 @@
 (global-set-key (kbd "<f2>") 'variable-pitch-mode)
 (global-set-key (kbd "C-c g") 'magit-file-dispatch)
 
+(use-package magit
+  :bind
+  ("C-c m" . magit-status))
+
 ;; Set background color of org-mode source blocks
 (use-package org
   :config
   (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("g" . "src gleam"))
+  (add-to-list 'org-structure-template-alist '("r" . "src rust"))
+
   (progn
     (defun imalison:org-inline-css-hook (exporter)
       "Insert custom inline css to automatically set the
@@ -104,7 +111,12 @@ background of code to whatever theme I'm using's background"
 	     (visual-line-mode nil)
 	     (writeroom-mode t)))
 
-(load-theme 'poet-dark)
+
+(use-package poet-theme
+  :config
+  (when window-system
+    (load-theme 'poet-dark)))
+
 (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "DejaVu Sans Mono")
 (set-face-attribute 'variable-pitch nil :family "Noto Serif CJK TC")
@@ -114,5 +126,3 @@ background of code to whatever theme I'm using's background"
 (bookmark-bmenu-list)
 
 (switch-to-buffer "*Bookmark List*")
-(add-to-list 'org-structure-template-alist '("g" . "src gleam"))
-(add-to-list 'org-structure-template-alist '("r" . "src rust"))
