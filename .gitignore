@@ -1,0 +1,4 @@
+.emacs.d/elpa/
+/.emacs.d/bookmarks
+/.emacs.d/eshell/
+.emacs.d/transient/
