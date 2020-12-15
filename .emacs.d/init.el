@@ -12,7 +12,49 @@
 (load-file "~/.emacs.d/better-links.el")
 
 (require 'gleam-mode)
-(use-package rjsx-mode)
+
+;; (use-package rjsx-mode
+;;   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+;;   :mode (("\\.jsx$" . rjsx-mode)
+;; 	 ("\\.ts$" . rjsx-mode)
+;;          ("components/.+\\.js$" . rjsx-mode))
+
+;;   )
+(use-package tide
+  :after (company flycheck)
+  :config
+  (define-key tide-mode-map (kbd "s-b") 'tide-jump-to-definition)
+  (define-key tide-mode-map (kbd "s-[") 'tide-jump-back))
+
+(use-package rjsx-mode
+  :config
+  (setq js-indent-level 2)
+  (setq tab-width 4
+        indent-tabs-mode nil)
+
+  :mode ("\\.jsx?$" . rjsx-mode)
+  :hook (rjsx-mode . tide-setup)
+  :config (setq js-indent-level 2
+                js2-strict-missing-semi-warning nil))
+
+(use-package web-mode
+  :mode
+  ("\\.html?$". web-mode)
+  ("\\.css$". web-mode)
+  ("\\.tsx$". web-mode)
+  :config
+  (defun my/tsx-setup ()
+    (when (and (stringp buffer-file-name)
+               (string-match "\\.tsx$" buffer-file-name))
+      (tide-setup)))
+  (add-hook 'web-mode-hook 'my/tsx-setup))
+
+(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("components\\/.*\\.ts$\\'" . rjsx-mode))
+(use-package prettier-js
+  :hook ((js2-mode . prettier-js-mode)
+         (rjsx-mode . prettier-js-mode)))
+
 (use-package yafolding
   :bind
   ("<C-tab>" . yafolding-toggle-element))
