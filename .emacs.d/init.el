@@ -12,7 +12,7 @@
 (load-file "~/.emacs.d/better-links.el")
 
 (require 'gleam-mode)
-
+(use-package rjsx-mode)
 (use-package yafolding
   :bind
   ("<C-tab>" . yafolding-toggle-element))
