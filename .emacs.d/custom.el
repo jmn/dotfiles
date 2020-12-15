@@ -21,7 +21,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Liberation Mono" :foundry "1ASC" :slant normal :weight normal :height 128 :width normal))))
- '(org-level-1 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
- '(org-level-2 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
- '(org-level-3 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
- '(org-level-4 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0)))))))
+ ;; '(org-level-1 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
+ ;; '(org-level-2 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
+ ;; '(org-level-3 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
+ ;; '(org-level-4 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0)))))))
+)
