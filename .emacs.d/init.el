@@ -13,6 +13,7 @@
 
 (require 'gleam-mode)
 
+(use-package yaml-mode)
 (use-package diff-hl
   :config
   (global-diff-hl-mode)
@@ -111,9 +112,11 @@
 (add-to-list 'auto-mode-alist '("\\.gleam$" . gleam-mode))
 (setq org-startup-folded nil)
 
-(with-eval-after-load 'ox
-  (require 'ox-hugo)
-  (require 'ox-gfm))
+(use-package ox-gfm
+  :config
+  (with-eval-after-load 'ox
+    (require 'ox-gfm))
+  )
 
 (advice-add #'org-hugo-link :override #'org-md-link)
 
@@ -154,7 +157,9 @@ background of code to whatever theme I'm using's background"
            (lambda ()
 	     (variable-pitch-mode 1)
 	     (visual-line-mode nil)
-	     (writeroom-mode t)))
+	     ;; (writeroom-mode t)
+	     )
+	   )
 
 
 (use-package poet-theme
@@ -183,3 +188,4 @@ background of code to whatever theme I'm using's background"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'dired-find-alternate-file 'disabled nil)
