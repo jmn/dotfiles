@@ -13,13 +13,10 @@
 
 (require 'gleam-mode)
 
-;; (use-package rjsx-mode
-;;   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-;;   :mode (("\\.jsx$" . rjsx-mode)
-;; 	 ("\\.ts$" . rjsx-mode)
-;;          ("components/.+\\.js$" . rjsx-mode))
-
-;;   )
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode)
+)
 (use-package tide
   :after (company flycheck)
   :config
@@ -43,6 +40,7 @@
   ("\\.css$". web-mode)
   ("\\.tsx$". web-mode)
   :config
+  (setq js-indent-level 2)
   (defun my/tsx-setup ()
     (when (and (stringp buffer-file-name)
                (string-match "\\.tsx$" buffer-file-name))
@@ -72,6 +70,7 @@
         ("C-M-i" . counsel-company)))
 
 (add-hook 'prog-mode-hook 'smartparens-mode)
+(add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
 (add-hook 'prog-mode-hook 'yafolding-mode)
 
 (add-hook 'text-mode-hook 'smartparens-mode)
