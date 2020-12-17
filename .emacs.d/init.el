@@ -13,6 +13,13 @@
 
 (require 'gleam-mode)
 
+(use-package minimap
+  :config
+  (setq minimap-window-location 'right)
+  )
+
+(use-package rainbow-delimiters
+  :hook prog-mode)
 (use-package yaml-mode)
 (use-package diff-hl
   :config
@@ -55,6 +62,7 @@
          (rjsx-mode . prettier-js-mode)))
 
 (use-package yafolding
+  :hook prog-mode
   :bind
   ("<C-tab>" . yafolding-toggle-element))
 
@@ -70,11 +78,7 @@
         ("C-i" . company-indent-or-complete-common)
         ("C-M-i" . counsel-company)))
 
-(add-hook 'prog-mode-hook 'smartparens-mode)
 (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
-(add-hook 'prog-mode-hook 'yafolding-mode)
-
-(add-hook 'text-mode-hook 'smartparens-mode)
 
 (defun my-rustic-mode-hook-fn ()
   "needed for lsp-format-buffer to indent with 4 spaces"
@@ -106,6 +110,7 @@
 
 (use-package company)
 (use-package smartparens
+  :hook (prog-mode text-mode)
   :config
   (require 'smartparens-config))
 
