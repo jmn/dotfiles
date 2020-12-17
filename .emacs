@@ -2,6 +2,7 @@
 (setq shell-command-switch "-ic")
 (load "~/.emacs.d/sanemacs.el" nil t)
 
+(use-package sudo-edit)
 (use-package exec-path-from-shell
 	     :config
 	     (when (memq window-system '(mac ns x))
@@ -39,7 +40,7 @@
         indent-tabs-mode nil)
   (cargo-minor-mode t)
   (racer-mode t)
-  ;; (flycheck-mode t)
+  (flycheck-mode t)
   (smartparens-mode t)
   )
 
@@ -129,3 +130,4 @@ background of code to whatever theme I'm using's background"
 (bookmark-bmenu-list)
 
 (switch-to-buffer "*Bookmark List*")
+(put 'dired-find-alternate-file 'disabled nil)

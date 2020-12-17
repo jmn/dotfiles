@@ -10,7 +10,7 @@
  '(org-confirm-babel-evaluate nil)
  '(org-startup-indented t)
  '(package-selected-packages
-   '(racer cargo yafolding origami fold-dwim smartparens yasnippet company company-mode lsp-mode rustic exec-path-from-shell flycheck-rust org-tempo dash-functional writeroom-mode zen-mode markdown-mode poet-theme ox ox-html ox-gfm ox-hugo magit htmlize undo-tree use-package))
+   '(sudo-edit racer cargo yafolding origami fold-dwim smartparens yasnippet company company-mode lsp-mode rustic exec-path-from-shell flycheck-rust org-tempo dash-functional writeroom-mode zen-mode markdown-mode poet-theme ox ox-html ox-gfm ox-hugo magit htmlize undo-tree use-package))
  '(rust-cargo-bin "~/.cargo/bin/cargo")
  '(show-paren-mode t)
  '(tool-bar-mode nil)
