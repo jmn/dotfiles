@@ -1,6 +1,7 @@
 (setq shell-file-name "bash")
 (setq shell-command-switch "-ic")
 (load "~/.emacs.d/sanemacs.el" nil t)
+;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.2")
 
 (use-package sudo-edit)
 (use-package exec-path-from-shell
@@ -13,7 +14,56 @@
 
 (require 'gleam-mode)
 
+(use-package minimap
+  :config
+  (setq minimap-window-location 'right)
+  )
+
+(use-package rainbow-delimiters
+  :hook prog-mode)
+(use-package yaml-mode)
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode)
+)
+(use-package tide
+  :after (company flycheck)
+  :config
+  (define-key tide-mode-map (kbd "s-b") 'tide-jump-to-definition)
+  (define-key tide-mode-map (kbd "s-[") 'tide-jump-back))
+
+(use-package rjsx-mode
+  :config
+  (setq js-indent-level 2)
+  (setq tab-width 4
+        indent-tabs-mode nil)
+
+  :mode ("\\.jsx?$" . rjsx-mode)
+  :hook (rjsx-mode . tide-setup)
+  :config (setq js-indent-level 2
+                js2-strict-missing-semi-warning nil))
+
+(use-package web-mode
+  :mode
+  ("\\.html?$". web-mode)
+  ("\\.css$". web-mode)
+  ("\\.tsx$". web-mode)
+  :config
+  (setq js-indent-level 2)
+  (defun my/tsx-setup ()
+    (when (and (stringp buffer-file-name)
+               (string-match "\\.tsx$" buffer-file-name))
+      (tide-setup)))
+  (add-hook 'web-mode-hook 'my/tsx-setup))
+
+(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("components\\/.*\\.ts$\\'" . rjsx-mode))
+(use-package prettier-js
+  :hook ((js2-mode . prettier-js-mode)
+         (rjsx-mode . prettier-js-mode)))
+
 (use-package yafolding
+  :hook prog-mode
   :bind
   ("<C-tab>" . yafolding-toggle-element))
 
@@ -29,10 +79,7 @@
         ("C-i" . company-indent-or-complete-common)
         ("C-M-i" . counsel-company)))
 
-(add-hook 'prog-mode-hook 'smartparens-mode)
-(add-hook 'prog-mode-hook 'yafolding-mode)
-
-(add-hook 'text-mode-hook 'smartparens-mode)
+(add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
 
 (defun my-rustic-mode-hook-fn ()
   "needed for lsp-format-buffer to indent with 4 spaces"
@@ -64,15 +111,18 @@
 
 (use-package company)
 (use-package smartparens
+  :hook (prog-mode text-mode)
   :config
   (require 'smartparens-config))
 
 (add-to-list 'auto-mode-alist '("\\.gleam$" . gleam-mode))
 (setq org-startup-folded nil)
 
-(with-eval-after-load 'ox
-  (require 'ox-hugo)
-  (require 'ox-gfm))
+(use-package ox-gfm
+  :config
+  (with-eval-after-load 'ox
+    (require 'ox-gfm))
+  )
 
 (advice-add #'org-hugo-link :override #'org-md-link)
 
@@ -113,7 +163,9 @@ background of code to whatever theme I'm using's background"
            (lambda ()
 	     (variable-pitch-mode 1)
 	     (visual-line-mode nil)
-	     (writeroom-mode t)))
+	     ;; (writeroom-mode t)
+	     )
+	   )
 
 
 (use-package poet-theme
@@ -130,4 +182,18 @@ background of code to whatever theme I'm using's background"
 (bookmark-bmenu-list)
 
 (switch-to-buffer "*Bookmark List*")
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
 (put 'dired-find-alternate-file 'disabled nil)

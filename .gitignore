@@ -2,3 +2,6 @@
 /.emacs.d/bookmarks
 /.emacs.d/eshell/
 .emacs.d/transient/
+/.emacs.d/url/
+/.emacs.d/.cache/
+/.emacs.d/.lsp-session-v1

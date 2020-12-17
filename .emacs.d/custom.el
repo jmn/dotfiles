@@ -9,8 +9,7 @@
  '(fill-column 120)
  '(org-confirm-babel-evaluate nil)
  '(org-startup-indented t)
- '(package-selected-packages
-   '(sudo-edit racer cargo yafolding origami fold-dwim smartparens yasnippet company company-mode lsp-mode rustic exec-path-from-shell flycheck-rust org-tempo dash-functional writeroom-mode zen-mode markdown-mode poet-theme ox ox-html ox-gfm ox-hugo magit htmlize undo-tree use-package))
+ '(package-selected-packages '(use-package))
  '(rust-cargo-bin "~/.cargo/bin/cargo")
  '(show-paren-mode t)
  '(tool-bar-mode nil)
@@ -20,8 +19,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Liberation Mono" :foundry "1ASC" :slant normal :weight normal :height 128 :width normal))))
- '(org-level-1 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
- '(org-level-2 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
- '(org-level-3 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0))))))
- '(org-level-4 ((t (:inherit default :foreground "#ceb39e" :height (lambda (_x) (poet-theme--height 1.0)))))))
+ '(default ((t (:family "Liberation Mono" :foundry "1ASC" :slant normal :weight normal :height 128 :width normal)))))
