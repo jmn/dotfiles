@@ -2,7 +2,7 @@ title: Dotfiles
 description: My main configuration files
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-minimal
+theme: jekyll-theme-hacker
 
 gems:
   - jekyll-mentions
