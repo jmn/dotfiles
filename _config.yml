@@ -1,0 +1,8 @@
+title: Dotfiles
+description: My main configuration files
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
