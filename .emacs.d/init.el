@@ -5,9 +5,9 @@
 
 (use-package sudo-edit)
 (use-package exec-path-from-shell
-	     :config
-	     (when (memq window-system '(mac ns x))
-	       (exec-path-from-shell-initialize)))
+       :config
+       (when (memq window-system '(mac ns x))
+         (exec-path-from-shell-initialize)))
 
 (load-file "~/.emacs.d/private/gleam-mode/gleam-mode.el")
 (load-file "~/.emacs.d/better-links.el")
@@ -16,16 +16,17 @@
 
 (use-package minimap
   :config
-  (setq minimap-window-location 'right)
-  )
+  (setq minimap-window-location 'right))
+
 
 (use-package rainbow-delimiters
-  :hook prog-mode)
+    :init
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 (use-package yaml-mode)
 (use-package diff-hl
   :config
-  (global-diff-hl-mode)
-)
+  (global-diff-hl-mode))
+
 (use-package tide
   :after (company flycheck)
   :config
@@ -63,7 +64,8 @@
          (rjsx-mode . prettier-js-mode)))
 
 (use-package yafolding
-  :hook prog-mode
+  :init
+    (add-hook 'prog-mode-hook #'yafolding-mode)
   :bind
   ("<C-tab>" . yafolding-toggle-element))
 
@@ -88,8 +90,16 @@
   (cargo-minor-mode t)
   (racer-mode t)
   (flycheck-mode t)
-  (smartparens-mode t)
-  )
+  (smartparens-mode t))
+
+
+;; (use-package quelpa
+;;   :config
+;;   (quelpa
+;;    '(quelpa-use-package
+;;      :fetcher git
+;;      :url "https://github.com/quelpa/quelpa-use-package.git"))
+;;   (require 'quelpa-use-package))
 
 (use-package rustic
   :init
@@ -104,16 +114,12 @@
   :bind
   (
    ("C-c n" . rustic-format-buffer)
-   ("<f3>" . rustic-cargo-run)
-   )
-  :hook (rustic-mode . my-rustic-mode-hook-fn)
-  )
+   ("<f3>" . rustic-cargo-run))
+
+  :hook (rustic-mode . my-rustic-mode-hook-fn))
+
 
 (use-package company)
-(use-package smartparens
-  :hook (prog-mode text-mode)
-  :config
-  (require 'smartparens-config))
 
 (add-to-list 'auto-mode-alist '("\\.gleam$" . gleam-mode))
 (setq org-startup-folded nil)
@@ -121,8 +127,8 @@
 (use-package ox-gfm
   :config
   (with-eval-after-load 'ox
-    (require 'ox-gfm))
-  )
+    (require 'ox-gfm)))
+
 
 (advice-add #'org-hugo-link :override #'org-md-link)
 
@@ -160,12 +166,12 @@ background of code to whatever theme I'm using's background"
 (global-visual-line-mode 0)
 
 (add-hook 'text-mode-hook
-           (lambda ()
-	     (variable-pitch-mode 1)
-	     (visual-line-mode nil)
-	     ;; (writeroom-mode t)
-	     )
-	   )
+           (lambda ())
+       (variable-pitch-mode 1)
+       (visual-line-mode nil))
+       ;; (writeroom-mode t)
+
+
 
 
 (use-package poet-theme
@@ -176,6 +182,81 @@ background of code to whatever theme I'm using's background"
 (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "DejaVu Sans Mono")
 (set-face-attribute 'variable-pitch nil :family "Noto Serif CJK TC")
+
+;; Haskell setup --------------------
+(use-package haskell-mode
+  :custom
+  (haskell-process-type 'cabal-repl)
+  (haskell-process-load-or-reload-prompt t)
+  (haskell-process-auto-import-loaded-modules t)
+  (haskell-process-log t)
+  (haskell-tags-on-save t)
+  :config
+  (defun haskell-mode-setup ()
+    (haskell-indentation-mode -1)
+    (interactive-haskell-mode)
+
+    (setq-local tab-stop-list '(2 4))
+    (setq indent-line-function 'indent-relative)
+    (setq tab-width 2)
+    (setq-local evil-shift-width 2)
+
+    (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
+    (define-key evil-normal-state-map (kbd "C-]") 'haskell-mode-goto-loc)
+    (define-key evil-normal-state-map (kbd "C-c C-]") 'haskell-mode-tag-find)
+    (define-key evil-normal-state-map (kbd "C-c C-t") 'haskell-mode-show-type-at))
+  (add-hook 'haskell-mode-hook 'haskell-mode-setup))
+
+(use-package flycheck-haskell
+  :config
+  (setq-default flycheck-disabled-checkers '(haskell-stack-ghc))
+  (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
+
+(use-package company-ghci
+  :after (pos-tip)
+  :config
+  (defun show-hoogle-info-in-popup ()
+    (pos-tip-show (company-ghci/hoogle-info (symbol-at-point)) nil nil nil -1))
+  (defun company-ghci-setup ()
+    (push 'company-ghci company-backends)
+    (define-key evil-normal-state-map (kbd "C-;") (lambda () (interactive) (show-hoogle-info-in-popup))))
+  (add-hook 'haskell-interactive-mode-hook 'company-mode)
+  (add-hook 'haskell-mode-hook 'company-ghci-setup))
+
+
+(use-package ormolu
+  :load-path "lisp/ormolu"
+  :hook (haskell-mode . ormolu-format-on-save-mode))
+
+(use-package dhall-mode
+  :mode "\\.dhall\\'")
+;;; -------------------------- End Haskell setup
+(use-package smartparens
+  :ensure t
+  :config
+  (require 'smartparens-config)
+  :init (progn)
+  (add-hook 'prog-mode-hook #'smartparens-mode))
+
+(use-package parinfer
+  :ensure t
+  :bind
+  (("C-," . parinfer-toggle-mode))
+  :init
+  (progn
+    (setq parinfer-extensions
+          '(defaults       ; should be included.
+            pretty-parens  ; different paren styles for different modes.
+            ;; lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+            paredit        ; Introduce some paredit commands.
+            smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
+            smart-yank))   ; Yank behavior depend on mode.
+    (add-hook 'clojure-mode-hook #'parinfer-mode)
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (add-hook 'prog-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 ;; open bookmarks at startup
 ;; You have to inhibit-startup-screen on startup. See above.
@@ -189,11 +270,11 @@ background of code to whatever theme I'm using's background"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages '(use-package)))
-(custom-set-faces
+(custom-set-faces)
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+
 
 (put 'dired-find-alternate-file 'disabled nil)
