@@ -87,7 +87,7 @@
   "needed for lsp-format-buffer to indent with 4 spaces"
   (setq tab-width 4
         indent-tabs-mode nil)
-  (cargo-minor-mode t)
+  ;; (cargo-minor-mode t)
   (racer-mode t)
   (flycheck-mode t)
   (smartparens-mode t))
@@ -237,26 +237,6 @@ background of code to whatever theme I'm using's background"
   (require 'smartparens-config)
   :init (progn)
   (add-hook 'prog-mode-hook #'smartparens-mode))
-
-;; (use-package parinfer
-;;   :ensure t
-;;   :bind
-;;   (("C-," . parinfer-toggle-mode))
-;;   :init
-;;   (progn
-;;     (setq parinfer-extensions
-;;           '(defaults       ; should be included.
-;;             pretty-parens  ; different paren styles for different modes.
-;;             ;; lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
-;;             paredit        ; Introduce some paredit commands.
-;;             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-;;             smart-yank))   ; Yank behavior depend on mode.
-;;     (add-hook 'clojure-mode-hook #'parinfer-mode)
-;;     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-;;     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-;;     (add-hook 'scheme-mode-hook #'parinfer-mode)
-;;     (add-hook 'prog-mode-hook #'parinfer-mode)
-;;     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 ;; open bookmarks at startup
 ;; You have to inhibit-startup-screen on startup. See above.

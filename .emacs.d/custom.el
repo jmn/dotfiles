@@ -9,7 +9,7 @@
  '(fill-column 120)
  '(org-confirm-babel-evaluate nil)
  '(org-startup-indented t)
- '(package-selected-packages '(use-package))
+ '(package-selected-packages '(clippy use-package))
  '(rust-cargo-bin "~/.cargo/bin/cargo")
  '(show-paren-mode t)
  '(tool-bar-mode nil)
